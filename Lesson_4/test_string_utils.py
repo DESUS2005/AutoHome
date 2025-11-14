@@ -3,7 +3,7 @@ from string_utils import StringUtils
 
 string_utils = StringUtils()
 
-# --- Tests для capitalize ---
+# ---  Tests для capitalize  ---
 @pytest.mark.positive
 @pytest.mark.parametrize("input_str, expected", [
     ("skypro", "Skypro"),
