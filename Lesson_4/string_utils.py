@@ -7,15 +7,19 @@ class StringUtils:
         """
         Принимает на вход текст, делает первую букву заглавной
         и возвращает этот же текст
-        Пример: `capitilize("skypro") -> "Skypro"`
+        Пример: `capitalize("skypro") -> "Skypro"`
         """
+        if not isinstance(string, str):
+            raise TypeError(f"Ожидается строка, получено {type(string)}")
         return string.capitalize()
 
     def trim(self, string: str) -> str:
         """
         Принимает на вход текст и удаляет пробелы в начале, если они есть
-        Пример: `trim("   skypro") -> "skypro"`
+        Пример: `trim(" skypro") -> "skypro"`
         """
+        if not isinstance(string, str):
+            raise TypeError(f"Ожидается строка, получено {type(string)}")
         whitespace = " "
         while string.startswith(whitespace):
             string = string.removeprefix(whitespace)
@@ -31,13 +35,14 @@ class StringUtils:
         Пример 1: `contains("SkyPro", "S") -> True`
         Пример 2: `contains("SkyPro", "U") -> False`
         """
-        res = False
+        if not isinstance(string, str):
+            raise TypeError(f"Ожидается строка для параметра 'string', получено {type(string)}")
+        if not isinstance(symbol, str):
+            raise TypeError(f"Ожидается строка для параметра 'symbol', получено {type(symbol)}")
         try:
-            res = string.index(symbol) > -1
+            return string.index(symbol) > -1
         except ValueError:
-            pass
-
-        return res
+            return False
 
     def delete_symbol(self, string: str, symbol: str) -> str:
         """
@@ -48,6 +53,10 @@ class StringUtils:
         Пример 1: `delete_symbol("SkyPro", "k") -> "SyPro"`
         Пример 2: `delete_symbol("SkyPro", "Pro") -> "Sky"`
         """
+        if not isinstance(string, str):
+            raise TypeError(f"Ожидается строка для параметра 'string', получено {type(string)}")
+        if not isinstance(symbol, str):
+            raise TypeError(f"Ожидается строка для параметра 'symbol', получено {type(symbol)}")
         if self.contains(string, symbol):
             string = string.replace(symbol, "")
         return string
