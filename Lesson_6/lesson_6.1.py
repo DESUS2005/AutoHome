@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 driver.get("http://uitestingplayground.com/ajax")
 driver.implicitly_wait(20)

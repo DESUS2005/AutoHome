@@ -18,10 +18,12 @@ ids = ["compass", "calendar", "award", "landscape"]
 for img_id in ids:
     wait.until(EC.presence_of_element_located((By.ID, img_id)))
 
+
 # Проверяем, что все изображения полностью загрузились
 for img_id in ids:
     img_element = driver.find_element(By.ID, img_id)
     wait.until(lambda d, im=img_element: im.get_attribute("naturalWidth") != '0')
+
 
 # После этого получаем свойство src у картинки с id="award"
 award_img = driver.find_element(By.ID, "award")
