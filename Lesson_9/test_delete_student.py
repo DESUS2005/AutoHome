@@ -1,6 +1,7 @@
 import pytest
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, select, insert
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, select, insert, delete
 
+# Конфигурация соединения
 DATABASE_URL = "postgresql://postgres:D123@localhost:5432/postgres"
 
 
@@ -20,8 +21,8 @@ def connection(engine):
 
 
 @pytest.fixture(scope='function')
-def setup_table(engine):
-    """Фикстура для создания таблицы 'student' перед тестом."""
+def student_table(engine):
+    """Фикстура, которая возвращает объект таблицы 'student', предполагая ее существование."""
     metadata = MetaData()
     student = Table('student', metadata,
                     Column('user_id', Integer, primary_key=True, autoincrement=True),
@@ -30,17 +31,15 @@ def setup_table(engine):
                     Column('subject_id', Integer),
                     schema='public'
                     )
-    metadata.create_all(engine)
-    yield student
-    # Тесты должны сами удалять свои данные.
+    return student
 
 
-def test_delete_student(connection, setup_table):
+def test_delete_student(connection, student_table):
     """Тест на удаление записи студента."""
-    student = setup_table
+    student = student_table
     test_subject_id = 789
 
-    # Вставляем тестовые данные
+    # 1. Вставляем тестовые данные, которые будем удалять
     insert_stmt = student.insert().values(
         level='Beginner',
         education_form='Full-time',
@@ -48,16 +47,16 @@ def test_delete_student(connection, setup_table):
     )
     connection.execute(insert_stmt)
 
-    # Проверка, что запись была вставлена перед удалением
+    # 2. Проверка, что запись была вставлена перед удалением
     select_stmt_before = select(student).where(student.c.subject_id == test_subject_id)
     rs_before = connection.execute(select_stmt_before).fetchone()
     assert rs_before is not None
 
-    # Удаляем запись
-    delete_stmt = student.delete().where(student.c.subject_id == test_subject_id)
+    # 3. Удаляем запись
+    delete_stmt = delete(student).where(student.c.subject_id == test_subject_id)
     connection.execute(delete_stmt)
 
-    # Проверка: данные удалены
+    # 4. Проверка: данные удалены
     select_stmt_after = select(student).where(student.c.subject_id == test_subject_id)
     rs_after = connection.execute(select_stmt_after).fetchone()
     assert rs_after is None
