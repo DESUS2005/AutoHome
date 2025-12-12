@@ -34,7 +34,6 @@ def student_table(engine):
                     )
     return student
 
-
 def test_add_student(connection, student_table):
     """Тест на добавление новой записи студента."""
     student = student_table

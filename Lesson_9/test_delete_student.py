@@ -33,7 +33,6 @@ def student_table(engine):
                     )
     return student
 
-
 def test_delete_student(connection, student_table):
     """Тест на удаление записи студента."""
     student = student_table

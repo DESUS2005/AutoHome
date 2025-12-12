@@ -33,7 +33,6 @@ def student_table(engine):
                     )
     return student
 
-
 def test_update_student(connection, student_table):
     """Тест на изменение записи студента."""
     student = student_table
