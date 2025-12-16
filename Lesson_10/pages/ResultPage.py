@@ -47,8 +47,6 @@ class ResultPage:
             Строка с количеством результатов (например, "Найдено 15 товаров").
         """
         wait = WebDriverWait(self._driver, 10)
-        # Здесь может потребоваться другой селектор, если ".searching-results__heading .num" не работает
-        # Попробуем сначала с ним, если упадет - будем искать дальше
         count_locator = (By.CSS_SELECTOR, ".searching-results__heading .num")
         try:
             count_element = wait.until(EC.presence_of_element_located(count_locator))

@@ -21,7 +21,6 @@ COOKIE_POLICY_DETAILS = {
 FEATURE = "Labirint Site"
 STORY = "Add to Cart Functionality"
 
-
 # --- Вспомогательная функция для ожидания кликабельности ---
 @allure.step("Ожидание кликабельности элемента: {locator}")
 def wait_for_clickable(driver: WebDriver, locator: tuple[str, str], timeout: int = 10) -> bool:

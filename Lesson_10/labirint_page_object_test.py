@@ -31,7 +31,6 @@ def test_search_with_page_object(driver: webdriver.Chrome):
         main_page.search(search_query)
 
     with allure.step("Проверяем, что результаты поиска отображаются"):
-        # Важно: убедиться, что селектор в ResultPage.get_search_results() работает
         # Здесь мы просто проверяем, что есть хоть какие-то результаты
         results = result_page.get_search_results()
         assert len(results) > 0, f"Не найдены результаты поиска для '{search_query}'"

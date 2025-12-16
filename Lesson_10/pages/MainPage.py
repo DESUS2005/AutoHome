@@ -4,7 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from typing import Optional
 
-
 class MainPage:
     """
     Представляет главную страницу сайта labirint.ru.
