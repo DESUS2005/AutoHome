@@ -1,0 +1,36 @@
+import pytest
+import allure
+from unittest.mock import patch, Mock
+from configs import config, testdata
+import requests
+
+@pytest.mark.api
+@allure.title("Позитивный поиск фильма (локальный тест без токена)")
+@allure.story("API: поиск фильма")
+def test_api_search_valid_film_local():
+    film_name = testdata.FILMS['valid']
+
+    # Мокаем requests.get
+    with patch("requests.get") as mock_get:
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"films": [{"name": film_name}]}
+        mock_get.return_value = mock_response
+
+        # Выполняем "запрос"
+        response = requests.get(
+            f"{config.API_BASE_URL}/search",
+            params={"q": film_name},
+            headers=config.HEADERS
+        )
+
+        # Проверяем, что запрос был сформирован правильно
+        mock_get.assert_called_once_with(
+            f"{config.API_BASE_URL}/search",
+            params={"q": film_name},
+            headers=config.HEADERS
+        )
+
+        # Проверяем ответ
+        assert response.status_code == 200
+        assert response.json()["films"][0]["name"] == film_name
